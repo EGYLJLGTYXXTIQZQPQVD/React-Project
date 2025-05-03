@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
 	return (
@@ -16,7 +16,7 @@ const Hero = () => {
 						<br />
 						<span className="font-light">New collections now available</span>
 					</h1>
-					<a
+					
 						href="#explore-section"
 						className="self-start uppercase font-semibold border-b-2 border-primary"
 					>

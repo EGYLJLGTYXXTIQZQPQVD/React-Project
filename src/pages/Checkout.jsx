@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { CartContext } from "../contexts/CartContext.jsx";
-import { CurrencyContext } from "../contexts/CurrencyContext.jsx";
-import { Link } from "react-router";
+import { CartContext } from "../contexts/CartContext";
+import { CurrencyContext } from "../contexts/CurrencyContext";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
 	const { cart, total, clearCart } = useContext(CartContext);
@@ -20,6 +20,14 @@ const Checkout = () => {
 		expDate: "",
 		cvv: "",
 	});
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData(prevState => ({
+			...prevState,
+			[name]: value
+		}));
+	};
 
 	const handleCheckout = (e) => {
 		e.preventDefault();
@@ -178,6 +186,7 @@ const Checkout = () => {
 													id="fullName"
 													name="fullName"
 													value={formData.fullName}
+													onChange={handleChange}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 													required
 												/>
@@ -194,6 +203,7 @@ const Checkout = () => {
 													id="email"
 													name="email"
 													value={formData.email}
+													onChange={handleChange}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 													required
 												/>
@@ -218,6 +228,7 @@ const Checkout = () => {
 													id="address"
 													name="address"
 													value={formData.address}
+													onChange={handleChange}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 													required
 												/>
@@ -236,6 +247,7 @@ const Checkout = () => {
 														id="city"
 														name="city"
 														value={formData.city}
+														onChange={handleChange}
 														className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 														required
 													/>
@@ -252,6 +264,7 @@ const Checkout = () => {
 														id="postalCode"
 														name="postalCode"
 														value={formData.postalCode}
+														onChange={handleChange}
 														className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 														required
 													/>
@@ -268,6 +281,7 @@ const Checkout = () => {
 														id="country"
 														name="country"
 														value={formData.country}
+														onChange={handleChange}
 														className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 														required
 													/>
@@ -291,6 +305,7 @@ const Checkout = () => {
 													id="cardNumber"
 													name="cardNumber"
 													value={formData.cardNumber}
+													onChange={handleChange}
 													placeholder="1234 5678 9012 3456"
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 													required
@@ -309,6 +324,7 @@ const Checkout = () => {
 													id="cardName"
 													name="cardName"
 													value={formData.cardName}
+													onChange={handleChange}
 													className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 													required
 												/>
@@ -327,6 +343,7 @@ const Checkout = () => {
 														id="expDate"
 														name="expDate"
 														value={formData.expDate}
+														onChange={handleChange}
 														placeholder="MM/YY"
 														className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 														required
@@ -344,6 +361,7 @@ const Checkout = () => {
 														id="cvv"
 														name="cvv"
 														value={formData.cvv}
+														onChange={handleChange}
 														placeholder="123"
 														className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
 														required

@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router";
-import { ProductContext } from "../contexts/ProductContext.jsx";
+import { useParams } from "react-router-dom";
+import { ProductContext } from "../contexts/ProductContext";
+import { CartContext } from "../contexts/CartContext";
 
 const ProductDetails = () => {
 	// get the product id from url
 	const { id } = useParams();
 	const { products } = useContext(ProductContext);
+	const { addToCart } = useContext(CartContext);
 
 	//get the single product based on id
-	const product = products[id];
+	const product = products.find((item) => item.id === parseInt(id));
 
 	// if product is not found
 	if (!product) {
@@ -42,7 +44,10 @@ const ProductDetails = () => {
 							$ {price}
 						</div>
 						<p className="mb-8">{description}</p>
-						<button className="bg-black py-4 px-8 text-white">
+						<button 
+							className="bg-black py-4 px-8 text-white"
+							onClick={() => addToCart(product, product.id)}
+						>
 							Add to cart
 						</button>
 					</div>

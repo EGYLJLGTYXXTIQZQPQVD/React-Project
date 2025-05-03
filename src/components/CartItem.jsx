@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import { IoMdAdd, IoMdClose, IoMdRemove } from "react-icons/io";
 
-import { CartContext } from "../contexts/CartContext.jsx";
+import { CartContext } from "../contexts/CartContext";
 
 const CartItem = ({ item }) => {
 	const { removeFromCart, increaseAmount, decreaseAmount } =

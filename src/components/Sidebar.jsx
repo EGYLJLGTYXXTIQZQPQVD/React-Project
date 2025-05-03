@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { IoMdArrowForward } from "react-icons/io";
 import { FiTrash2 } from "react-icons/fi";
 
 import CartItem from "./CartItem";
-import { SidebarContext } from "../contexts/SidebarContext.jsx";
-import { CartContext } from "../contexts/CartContext.jsx";
-import { CurrencyContext } from "../contexts/CurrencyContext.jsx";
+import { SidebarContext } from "../contexts/SidebarContext";
+import { CartContext } from "../contexts/CartContext";
+import { CurrencyContext } from "../contexts/CurrencyContext";
 
 const Sidebar = () => {
 	const navigate = useNavigate();
 
 	const { isOpen, handleClose } = useContext(SidebarContext);
-	const { cart, itemAmount, total } = useContext(CartContext);
+	const { cart, itemAmount, total, clearCart } = useContext(CartContext);
 	const { currencySymbol } = useContext(CurrencyContext);
 
 	const handleCheckout = () => {
@@ -40,7 +40,7 @@ const Sidebar = () => {
 				</div>
 				<div
 					onClick={handleClose}
-					className="cursor-poniter w-8 h-8 flex justify-center items-center"
+					className="cursor-pointer w-8 h-8 flex justify-center items-center"
 				>
 					<IoMdArrowForward className="text-2xl" />
 				</div>
@@ -59,7 +59,7 @@ const Sidebar = () => {
 					</div>
 					{/* clear cart icon */}
 					<div
-						onClick={() => {}}
+						onClick={() => clearCart()}
 						className="clear-cart-btn cursor-pointer py-4 bg-red-500 text-white w-12 h-12 flex justify-center items-center text-xl"
 					>
 						<FiTrash2 />

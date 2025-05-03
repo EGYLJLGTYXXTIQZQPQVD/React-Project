@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import { BsPlus, BsEyeFill } from "react-icons/bs";
 
-import { CartContext } from "../contexts/CartContext.jsx";
+import { CartContext } from "../contexts/CartContext";
 
 const Product = ({ product }) => {
 	const { addToCart } = useContext(CartContext);
@@ -44,7 +44,7 @@ const Product = ({ product }) => {
 					<h2 className="font-semibold mb-1">{title}</h2>
 				</Link>
 
-				<h2 className="font-semibbold">$ {price}</h2>
+				<h2 className="font-semibold">$ {price}</h2>
 			</div>
 		</div>
 	);

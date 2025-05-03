@@ -12,7 +12,7 @@ const CartProvider = ({ children }) => {
 
 	useEffect(() => {
 		const total = cart.reduce((accumulator, currentItem) => {
-			return accumulator + currentItem.price;
+			return accumulator + currentItem.price * currentItem.amount;
 		}, 0);
 		setTotal(total);
 	}, [cart]);
@@ -29,7 +29,7 @@ const CartProvider = ({ children }) => {
 
 	// add to cart
 	const addToCart = (product, id) => {
-		const newItem = { ...product, amount: 2 };
+		const newItem = { ...product, amount: 1 };
 		// check if the item is already in the cart
 		const cartItem = cart.find((item) => {
 			return item.id === id;
@@ -37,7 +37,7 @@ const CartProvider = ({ children }) => {
 		if (cartItem) {
 			const newCart = [...cart].map((item) => {
 				if (item.id === id) {
-					return { ...item, amount: cartItem.amount };
+					return { ...item, amount: cartItem.amount + 1 };
 				} else return item;
 			});
 			setCart(newCart);
@@ -54,7 +54,7 @@ const CartProvider = ({ children }) => {
 		setCart(newCart);
 	};
 
-	// cleart cart
+	// clear cart
 	const clearCart = () => {
 		setCart([]);
 	};
@@ -68,6 +68,16 @@ const CartProvider = ({ children }) => {
 	// decrease amount
 	const decreaseAmount = (id) => {
 		const cartItem = cart.find((item) => item.id === id);
+		if (cartItem) {
+			const newCart = cart.map((item) => {
+				if (item.id === id) {
+					return { ...item, amount: item.amount - 1 };
+				} else {
+					return item;
+				}
+			});
+			setCart(newCart.filter((item) => item.amount > 0));
+		}
 	};
 
 	return (
