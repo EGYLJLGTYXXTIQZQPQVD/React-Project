@@ -1,14 +1,22 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom"; // Fixed import
+
+// import contexts
+import { CartContext } from "../contexts/CartContext.jsx";
 import { ProductContext } from "../contexts/ProductContext.jsx";
 
 const ProductDetails = () => {
 	// get the product id from url
 	const { id } = useParams();
 	const { products } = useContext(ProductContext);
+	const { addToCart } = useContext(CartContext); // Added CartContext
 
 	//get the single product based on id
-	const product = products[id];
+	// Fixed: Use find() and handle potential string/number difference
+	const product = products.find((item) => {
+		// Use == for type coercion just in case API ID is number and param is string
+		return item.id == id;
+	});
 
 	// if product is not found
 	if (!product) {
@@ -23,7 +31,7 @@ const ProductDetails = () => {
 	const { title, price, description, image } = product;
 	return (
 		<section
-			className="pt-[450px] md:pt-32 pb-[400px] md:pb-12 lg:py-32 h-screen flex items-center"
+			className="pt-[450px] md:pt-32 pb-[400px] md:pb-12 lg:py-32 min-h-screen flex items-center" // Use min-h-screen instead of h-screen for flexibility
 			data-testid="product-details"
 		>
 			<div className="container mx-auto">
@@ -42,7 +50,11 @@ const ProductDetails = () => {
 							$ {price}
 						</div>
 						<p className="mb-8">{description}</p>
-						<button className="bg-black py-4 px-8 text-white">
+						{/* Fixed: Added onClick handler */}
+						<button
+							onClick={() => addToCart(product, product.id)}
+							className="bg-black py-4 px-8 text-white hover:bg-gray-800 transition"
+						>
 							Add to cart
 						</button>
 					</div>

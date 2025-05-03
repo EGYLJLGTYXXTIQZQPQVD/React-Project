@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom"; // Fixed import
 
 import { IoMdAdd, IoMdClose, IoMdRemove } from "react-icons/io";
 
 import { CartContext } from "../contexts/CartContext.jsx";
+import { CurrencyContext } from "../contexts/CurrencyContext.jsx"; // Added currency context
 
 const CartItem = ({ item }) => {
 	const { removeFromCart, increaseAmount, decreaseAmount } =
 		useContext(CartContext);
+	const { currencySymbol } = useContext(CurrencyContext); // Get currency symbol
 	// destructure item
 	const { id, title, image, price, amount } = item;
 
@@ -16,7 +18,11 @@ const CartItem = ({ item }) => {
 			<div className="w-full min-h-[150px] flex items-center gap-x-4">
 				{/* image */}
 				<Link to={`/product/${id}`}>
-					<img className="max-w-[80px]" src={image} alt="" />
+					<img
+						className="max-w-[80px]"
+						src={image}
+						alt={title} // Added alt text
+					/>
 				</Link>
 				<div className="w-full flex flex-col">
 					{/* title and remove icon */}
@@ -32,6 +38,8 @@ const CartItem = ({ item }) => {
 						<div
 							onClick={() => removeFromCart(id)}
 							className="text-xl cursor-pointer"
+							role="button"
+							aria-label={`Remove ${title} from cart`}
 						>
 							<IoMdClose className="text-gray-500 hover:text-red-500 transition" />
 						</div>
@@ -39,30 +47,39 @@ const CartItem = ({ item }) => {
 					<div className="flex gap-x-2 h-[36px] text-sm">
 						{/* quantity */}
 						<div className="flex flex-1 max-w-[100px] items-center h-full border text-primary font-medium">
+							{/* minus icon */}
 							<div
 								onClick={() => decreaseAmount(id)}
-								className="h-full flex-1 flex justify-center items-center cursor-pointer"
+								className="h-full flex-1 flex justify-center items-center cursor-pointer hover:bg-gray-100 transition"
+								role="button"
+								aria-label={`Decrease quantity of ${title}`}
 							>
 								<IoMdRemove />
 							</div>
+							{/* amount */}
 							<div className="h-full flex justify-center items-center px-2">
 								{amount}
 							</div>
+							{/* plus icon */}
 							<div
 								onClick={() => increaseAmount(id)}
-								className="h-full flex flex-1 justify-center items-center cursor-pointer"
+								className="h-full flex flex-1 justify-center items-center cursor-pointer hover:bg-gray-100 transition"
+								role="button"
+								aria-label={`Increase quantity of ${title}`}
 							>
 								<IoMdAdd />
 							</div>
 						</div>
 						{/* item price */}
 						<div className="flex flex-1 justify-around items-center">
-							$ {price}
+							{currencySymbol} {price.toFixed(2)} {/* Used currencySymbol */}
 						</div>
 						{/* final price */}
-						<div className="flex flex-1 justify-end items-center text-primary font-medium">{`$ ${parseFloat(
-							price * amount
-						).toFixed(2)}`}</div>
+						{/* make the price update when amount changes */}
+						<div className="flex flex-1 justify-end items-center text-primary font-medium">
+							{/* Used currencySymbol and fixed calculation */}
+							{`${currencySymbol} ${parseFloat(price * amount).toFixed(2)}`}
+						</div>
 					</div>
 				</div>
 			</div>
